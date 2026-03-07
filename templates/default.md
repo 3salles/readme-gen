@@ -3,55 +3,69 @@
 </p>
 
 <p align="center">
-  ![GitHub repo size](https://img.shields.io/github/repo-size/{{github_user}}/{{project_name}}?style=for-the-badge)
-  ![GitHub language count](https://img.shields.io/github/languages/count/{{github_user}}/{{project_name}}?style=for-the-badge)
-  ![GitHub forks](https://img.shields.io/github/forks/{{github_user}}/{{project_name}}?style=for-the-badge)
-  ![GitHub open issues](https://img.shields.io/github/issues/{{github_user}}/{{project_name}}?style=for-the-badge)
-  ![GitHub open pull requests](https://img.shields.io/github/issues-pr/{{github_user}}/{{project_name}}?style=for-the-badge)
-  {{license_badge}}
+  <a href="https://github.com/{{github_user}}/{{project_name}}">
+    <img src="https://img.shields.io/github/repo-size/{{github_user}}/{{project_name}}?style=for-the-badge" alt="GitHub repo size">
+  </a>
+  <a href="https://github.com/{{github_user}}/{{project_name}}">
+    <img src="https://img.shields.io/github/languages/count/{{github_user}}/{{project_name}}?style=for-the-badge" alt="GitHub language count">
+  </a>
+  <a href="https://github.com/{{github_user}}/{{project_name}}">
+    <img src="https://img.shields.io/github/forks/{{github_user}}/{{project_name}}?style=for-the-badge" alt="GitHub forks">
+  </a>
+  <a href="https://github.com/{{github_user}}/{{project_name}}/issues">
+    <img src="https://img.shields.io/github/issues/{{github_user}}/{{project_name}}?style=for-the-badge" alt="GitHub open issues">
+  </a>
+  <a href="https://github.com/{{github_user}}/{{project_name}}/pulls">
+    <img src="https://img.shields.io/github/issues-pr/{{github_user}}/{{project_name}}?style=for-the-badge" alt="GitHub open pull requests">
+  </a>
+  {{#if license_badge}}<img src="https://img.shields.io/static/v1?label=License&message={{license}}&color=0000ff&style=for-the-badge" alt="License">{{/if}}
 </p>
 
-## 🗂 Índice
+## 🗂 Table of Contents
 
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Tecnologias](#tecnologias)
-- [Instalação](#instalação)
-  {{#if env_vars}}_ [Variáveis de Ambiente](#variáveis-de-ambiente){{/if}}
-  {{#if has_docker}}_ [Rodando com Docker](#rodando-com-docker){{/if}}
-  {{#if contributors_table}}_ [Contribuintes](#contribuintes){{/if}}
-  {{#if license}}_ [Licença](#licença){{/if}}
-  {{#if author}}\* [Autor](#autor){{/if}}
+- [About the Project](#book-about-the-project)
+  - [Technologies](#computer-technologies)
+- [Installation](#bricks-installation)
+  - [Prerequisites](#construction-prerequisites)
+  - [Installing Dependencies](#construction-installing-dependencies)
+    {{#if env_vars}} _ [Environment Variables](#wrench-environment-variables){{/if}}
+    {{#if has_docker}} _ [Running with Docker](#whale-running-with-docker){{/if}}
+  - [Running](#arrow_forward-running)
+- [Contributing](#handshake-contributing)
+  {{#if contributors_table}}_ [Contributors](#contributors){{/if}}
+  {{#if license}}_ [License](#page_facing_up-license){{/if}}
+  {{#if author}}\* [Author](#technologist-author){{/if}}
 
-## :book: Sobre o Projeto
+## :book: About The Project
 
 {{description}}
 
-### :computer: Tecnologias
+### :computer: Technologies
 
 {{tech_list}}
 
-## :bricks: Instalação
+## :bricks: Installation
 
-### :construction: Pré-requisitos
+### :construction: Prerequisites
 
-Clone o repositório do projeto:
+Clone this project repository:
 
 ```bash
 $ git clone https://github.com/{{github_user}}/{{project_name}}.git
 $ cd {{project_name}}
 ```
 
-### :construction: Instalando Dependências
+### :construction: Installing Dependencies
 
 ```bash
-$ pnpm install
+$ npm install
 ```
 
 {{#if env_vars}}
 
-### :wrench: Variáveis de Ambiente
+### :wrench: Environment Variables
 
-Crie um arquivo `.env` com as seguintes chaves:
+Create a `.env` file with the following keys:
 
 ```
 {{env_vars}}
@@ -61,7 +75,7 @@ Crie um arquivo `.env` com as seguintes chaves:
 
 {{#if has_docker}}
 
-### :whale: Rodando com Docker
+### :whale: Running with Docker
 
 ```bash
 $ docker build -t {{project_name}} .
@@ -70,43 +84,43 @@ $ docker run -d -p {{docker_port}}:{{docker_port}} {{project_name}}
 
 {{/if}}
 
-### :arrow_forward: Rodando o Projeto
+### :arrow_forward: Running
 
 ```bash
-$ pnpm run dev
+$ npm run dev
 ```
 
-## :handshake: Contribuindo
+## :handshake: Contributing
 
-Para contribuir com {{project_name}}, siga estes passos:
+To contribute to {{project_name}}, follow these steps:
 
-1. Faça um fork deste repositório.
-2. Crie uma branch: `git checkout -b <nome_da_branch>`.
-3. Faça suas alterações e confirme: `git commit -m '<mensagem_do_commit>'`
-4. Envie para a branch original: `git push origin {{project_name}}/<local>`
-5. Crie a solicitação de pull.
+1. Fork this repository.
+2. Create a branch: `git checkout -b <branch_name>`.
+3. Make your changes and commit: `git commit -m '<commit_message>'`
+4. Push to the original branch: `git push origin {{project_name}}/<local>`
+5. Create a pull request.
 
-Consulte a documentação do GitHub sobre [como criar uma solicitação de pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+See the GitHub docs on [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
 {{#if contributors_table}}
 
-## 🤝 Contribuintes
+## 🤝 Contributors
 
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
+Thanks to the following people who contributed to this project:
 
 {{contributors_table}}
 {{/if}}
 
 {{#if license}}
 
-## :page_facing_up: Licença
+## :page_facing_up: License
 
-Este projeto está sob a licença [{{license}}](LICENSE).
+This project uses [{{license}}](LICENSE) license.
 {{/if}}
 
 {{#if author}}
 
-## :technologist: Autor
+## :technologist: Author
 
 [{{author}}](https://github.com/{{github_user}})
 {{/if}}
