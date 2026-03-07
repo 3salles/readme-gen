@@ -33,6 +33,23 @@ export function detectProject(projectPath: string): ProjectInfo {
     else if (pkg.author?.name) info.author = pkg.author.name;
   }
 
+  // Busca licença no arquivo LICENSE se não encontrou no package.json
+  if (!info.license) {
+    const licenseFiles = ["LICENSE", "LICENSE.md", "LICENSE.txt"];
+    for (const file of licenseFiles) {
+      const licensePath = path.join(projectPath, file);
+      if (fs.existsSync(licensePath)) {
+        const content = fs.readFileSync(licensePath, "utf-8");
+        if (content.includes("MIT")) info.license = "MIT";
+        else if (content.includes("Apache")) info.license = "Apache 2.0";
+        else if (content.includes("GPL")) info.license = "GPL";
+        else if (content.includes("BSD")) info.license = "BSD";
+        else info.license = file;
+        break;
+      }
+    }
+  }
+
   try {
     const gitUser = execSync("git config user.name", {
       cwd: projectPath,

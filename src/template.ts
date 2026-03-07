@@ -3,19 +3,55 @@ import path from "path";
 import type { ProjectInfo } from "./detector.js";
 
 export interface TemplateData extends ProjectInfo {
-  [key: string]: unknown;
   tech_list?: string;
   project_name?: string;
   env_vars?: string;
   has_docker?: string;
   docker_port?: string;
   github_user?: string;
+  contributors_table?: string;
+  [key: string]: unknown;
 }
 
 export function loadTemplate(templatePath?: string): string {
   const defaultPath = path.resolve("templates/default.md");
   const filePath = templatePath ?? defaultPath;
   return fs.readFileSync(filePath, "utf-8");
+}
+
+export function buildContributorsTable(input: string): string {
+  const contributors = input
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [name, user] = line.split("--");
+      return { name: name?.trim(), user: user?.trim() };
+    })
+    .filter((c) => c.name && c.user);
+
+  const rows: string[] = [];
+  const chunkSize = 3;
+
+  for (let i = 0; i < contributors.length; i += chunkSize) {
+    const chunk = contributors.slice(i, i + chunkSize);
+
+    const cells = chunk
+      .map(
+        (c) => `
+    <td align="center">
+      <a href="https://github.com/${c.user}">
+        <img src="https://avatars.githubusercontent.com/${c.user}" width="100px;" alt="${c.name}"/><br>
+        <sub><b>${c.name}</b></sub>
+      </a>
+    </td>`,
+      )
+      .join("");
+
+    rows.push(`  <tr>${cells}\n  </tr>`);
+  }
+
+  return `<table>\n${rows.join("\n")}\n</table>`;
 }
 
 export function fillTemplate(template: string, data: TemplateData): string {
