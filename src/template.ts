@@ -103,6 +103,8 @@ export function buildTableOfContents(data: TemplateData): string {
   const lines: string[] = [];
 
   lines.push("* [About the Project](#book-about-the-project)");
+  if (data.usage_command) lines.push("  * [Usage](#coffee-usage)");
+  lines.push("  * [Technologies](#computer-technologies)");
   lines.push("  * [Technologies](#computer-technologies)");
   lines.push("* [Installation](#bricks-installation)");
   lines.push("  * [Prerequisites](#construction-prerequisites)");
@@ -114,7 +116,6 @@ export function buildTableOfContents(data: TemplateData): string {
   if (data.has_docker)
     lines.push("  * [Running with Docker](#whale-running-with-docker)");
   lines.push("  * [Running](#arrow_forward-running)");
-  if (data.usage_command) lines.push("* [Usage](#coffee-usage)");
   lines.push("* [Contributing](#handshake-contributing)");
   if (data.contributors_table) lines.push("* [Contributors](#contributors)");
   if (data.license) lines.push("* [License](#page_facing_up-license)");

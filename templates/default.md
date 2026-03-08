@@ -29,6 +29,18 @@
 
 {{description}}
 
+{{#if usage_command}}
+
+### :coffee: Usage
+
+To use {{project_name}}, run the following command:
+
+```bash
+$ {{usage_command}}
+```
+
+{{/if}}
+
 ### :computer: Technologies
 
 {{tech_list}}
@@ -78,18 +90,6 @@ $ docker run -d -p {{docker_port}}:{{docker_port}} {{project_name}}
 ```bash
 $ npm run dev
 ```
-
-{{#if usage_command}}
-
-## :coffee: Usage
-
-To use {{project_name}}, run the following command:
-
-```bash
-$ {{usage_command}}
-```
-
-{{/if}}
 
 ## :handshake: Contributing
 
