@@ -113,5 +113,18 @@ export function detectProject(projectPath: string): ProjectInfo {
     info.hasDocker = true;
   }
 
+  // Try to read port from docker-compose if not already found from Dockerfile
+  if (info.hasDocker && !info.dockerPort) {
+    const dockerComposeFile = dockerComposePaths.find((f) =>
+      fs.existsSync(path.join(projectPath, f)),
+    );
+    if (dockerComposeFile) {
+      const content = fs.readFileSync(path.join(projectPath, dockerComposeFile), "utf-8");
+      // Matches "3000:3000" or "3000:80" — captures the container port (right side)
+      const portMatch = content.match(/['""]?(\d+):(\d+)['""]?/);
+      if (portMatch) info.dockerPort = portMatch[2];
+    }
+  }
+
   return info;
 }

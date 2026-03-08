@@ -214,6 +214,37 @@ describe("detectProject — Docker", () => {
     expect(info.hasDocker).toBe(true);
   });
 
+  it("extracts container port from docker-compose.yml ports mapping", () => {
+    writeFile(
+      tmpDir,
+      "docker-compose.yml",
+      'services:\n  app:\n    ports:\n      - "3000:3000"\n',
+    );
+    const info = detectProject(tmpDir);
+    expect(info.dockerPort).toBe("3000");
+  });
+
+  it("extracts container port when host and container ports differ", () => {
+    writeFile(
+      tmpDir,
+      "docker-compose.yml",
+      'services:\n  app:\n    ports:\n      - "8080:3000"\n',
+    );
+    const info = detectProject(tmpDir);
+    expect(info.dockerPort).toBe("3000");
+  });
+
+  it("does not override Dockerfile EXPOSE port with docker-compose port", () => {
+    writeFile(tmpDir, "Dockerfile", "FROM node:20\nEXPOSE 4000\n");
+    writeFile(
+      tmpDir,
+      "docker-compose.yml",
+      'services:\n  app:\n    ports:\n      - "8080:3000"\n',
+    );
+    const info = detectProject(tmpDir);
+    expect(info.dockerPort).toBe("4000");
+  });
+
   it("sets hasDocker to true when package.json has a docker script", () => {
     writeJson(tmpDir, "package.json", { scripts: { "docker:build": "docker build ." } });
     const info = detectProject(tmpDir);
