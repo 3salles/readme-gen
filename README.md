@@ -20,7 +20,7 @@
   </a>
   <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=0000ff&style=for-the-badge" alt="License">
   <a href="https://www.npmjs.com/package/readme-cli-gen">
-  <img src="https://img.shields.io/npm/v/readme-cli-gen?style=for-the-badge" alt="npm version">
+  <img src="https://img.shields.io/npm/v/readme-cli-gen?style=for-the-badge&cacheBust=1" alt="npm version">
 </a>
 </p>
 
