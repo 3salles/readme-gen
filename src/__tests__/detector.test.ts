@@ -138,7 +138,7 @@ describe("detectProject — LICENSE file", () => {
 });
 
 // ---------------------------------------------------------------------------
-// .env.example parsing
+// .env.example / .env parsing
 // ---------------------------------------------------------------------------
 
 describe("detectProject — .env.example", () => {
@@ -161,13 +161,28 @@ describe("detectProject — .env.example", () => {
     const info = detectProject(tmpDir);
     expect(info.envVars).toEqual(["API_KEY"]);
   });
+
+  it("falls back to .env when .env.example does not exist", () => {
+    writeFile(tmpDir, ".env", "DATABASE_URL=postgres://localhost\nSECRET=abc123\n");
+    const info = detectProject(tmpDir);
+    expect(info.envVars).toContain("DATABASE_URL");
+    expect(info.envVars).toContain("SECRET");
+  });
+
+  it("prefers .env.example over .env when both exist", () => {
+    writeFile(tmpDir, ".env.example", "EXAMPLE_VAR=\n");
+    writeFile(tmpDir, ".env", "REAL_VAR=value\n");
+    const info = detectProject(tmpDir);
+    expect(info.envVars).toContain("EXAMPLE_VAR");
+    expect(info.envVars).not.toContain("REAL_VAR");
+  });
 });
 
 // ---------------------------------------------------------------------------
-// Dockerfile detection
+// Docker detection
 // ---------------------------------------------------------------------------
 
-describe("detectProject — Dockerfile", () => {
+describe("detectProject — Docker", () => {
   it("sets hasDocker to true when Dockerfile exists", () => {
     writeFile(tmpDir, "Dockerfile", "FROM node:20\nEXPOSE 3000\n");
     const info = detectProject(tmpDir);
@@ -187,7 +202,25 @@ describe("detectProject — Dockerfile", () => {
     expect(info.dockerPort).toBeUndefined();
   });
 
-  it("does not set hasDocker when Dockerfile is absent", () => {
+  it("sets hasDocker to true when docker-compose.yml exists", () => {
+    writeFile(tmpDir, "docker-compose.yml", "services:\n  app:\n    image: node:20\n");
+    const info = detectProject(tmpDir);
+    expect(info.hasDocker).toBe(true);
+  });
+
+  it("sets hasDocker to true when docker-compose.yaml exists", () => {
+    writeFile(tmpDir, "docker-compose.yaml", "services:\n  app:\n    image: node:20\n");
+    const info = detectProject(tmpDir);
+    expect(info.hasDocker).toBe(true);
+  });
+
+  it("sets hasDocker to true when package.json has a docker script", () => {
+    writeJson(tmpDir, "package.json", { scripts: { "docker:build": "docker build ." } });
+    const info = detectProject(tmpDir);
+    expect(info.hasDocker).toBe(true);
+  });
+
+  it("does not set hasDocker when no Docker files or scripts exist", () => {
     const info = detectProject(tmpDir);
     expect(info.hasDocker).toBeUndefined();
   });

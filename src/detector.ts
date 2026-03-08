@@ -78,12 +78,16 @@ export function detectProject(projectPath: string): ProjectInfo {
     console.warn("Could not read remote.origin.url from git:", error);
   }
 
-  const envPath = path.join(projectPath, ".env.example");
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, "utf-8").split("\n");
-    info.envVars = lines
-      .filter((l) => l.trim() && !l.startsWith("#"))
-      .map((l) => l.split("=")[0]?.trim() ?? l.trim());
+  const envFiles = [".env.example", ".env"];
+  for (const envFile of envFiles) {
+    const envPath = path.join(projectPath, envFile);
+    if (fs.existsSync(envPath)) {
+      const lines = fs.readFileSync(envPath, "utf-8").split("\n");
+      info.envVars = lines
+        .filter((l) => l.trim() && !l.startsWith("#"))
+        .map((l) => l.split("=")[0]?.trim() ?? l.trim());
+      break;
+    }
   }
 
   const testScript = Object.keys(info.scripts ?? {}).find(
@@ -92,11 +96,21 @@ export function detectProject(projectPath: string): ProjectInfo {
   if (testScript) info.testCommand = `npm run ${testScript}`;
 
   const dockerfilePath = path.join(projectPath, "Dockerfile");
+  const dockerComposePaths = ["docker-compose.yml", "docker-compose.yaml"];
+  const hasDockerCompose = dockerComposePaths.some((f) =>
+    fs.existsSync(path.join(projectPath, f)),
+  );
+  const hasDockerScript = Object.keys(info.scripts ?? {}).some((s) =>
+    s.toLowerCase().includes("docker"),
+  );
+
   if (fs.existsSync(dockerfilePath)) {
     info.hasDocker = true;
     const content = fs.readFileSync(dockerfilePath, "utf-8");
     const portMatch = content.match(/EXPOSE\s+(\d+)/);
     if (portMatch) info.dockerPort = portMatch[1];
+  } else if (hasDockerCompose || hasDockerScript) {
+    info.hasDocker = true;
   }
 
   return info;
