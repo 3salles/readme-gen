@@ -290,12 +290,61 @@ async function main() {
     ? `![License](https://img.shields.io/static/v1?label=License&message=${encodeURIComponent(license)}&color=0000ff&style=for-the-badge)`
     : undefined;
 
+  let usageCommand: string | undefined;
+
+  const showUsage = await p.confirm({
+    message: "Deseja exibir seção de uso do projeto?",
+  });
+
+  if (p.isCancel(showUsage)) {
+    p.cancel("Operação cancelada.");
+    process.exit(0);
+  }
+
+  if (showUsage) {
+    const detectedScripts = Object.keys(info.scripts ?? {})
+      .filter((s) => ["start", "dev", "serve", "preview"].includes(s))
+      .map((s) => `npm run ${s}`);
+
+    if (detectedScripts.length > 0) {
+      p.log.success(`Scripts detectados: ${detectedScripts.join(", ")}`);
+
+      const useDetected = await p.confirm({
+        message: `Usar "${detectedScripts[0]}" como comando de uso?`,
+      });
+
+      if (p.isCancel(useDetected)) {
+        p.cancel("Operação cancelada.");
+        process.exit(0);
+      }
+
+      if (useDetected) usageCommand = detectedScripts[0];
+    }
+
+    if (!usageCommand) {
+      const written = await p.text({
+        message: "Qual o comando para usar o projeto?",
+        placeholder: "npx readme-gen ou npm start",
+        validate: (v) =>
+          !v || v.trim() === "" ? "O comando não pode ser vazio." : undefined,
+      });
+
+      if (p.isCancel(written)) {
+        p.cancel("Operação cancelada.");
+        process.exit(0);
+      }
+
+      usageCommand = written;
+    }
+  }
+
   const tableOfContents = buildTableOfContents({
     env_vars: envVars,
     has_docker: hasDocker,
     contributors_table: contributorsTable,
     license,
     author,
+    usage_command: usageCommand,
   });
 
   // Monta o data
@@ -312,6 +361,7 @@ async function main() {
     contributors_table: contributorsTable,
     license,
     license_badge: licenseBadge,
+    usage_command: usageCommand,
     table_of_contents: tableOfContents,
   };
 

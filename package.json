@@ -1,7 +1,7 @@
 {
   "name": "readme-gen",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.",
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",

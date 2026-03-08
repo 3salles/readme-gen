@@ -79,6 +79,18 @@ $ docker run -d -p {{docker_port}}:{{docker_port}} {{project_name}}
 $ npm run dev
 ```
 
+{{#if usage_command}}
+
+## :coffee: Usage
+
+To use {{project_name}}, run the following command:
+
+```bash
+$ {{usage_command}}
+```
+
+{{/if}}
+
 ## :handshake: Contributing
 
 To contribute to {{project_name}}, follow these steps:

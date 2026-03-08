@@ -23,21 +23,20 @@
 
 ## 🗂 Table of Contents
 
-## 🗂 Table of Contents
-
 * [About the Project](#book-about-the-project)
   * [Technologies](#computer-technologies)
 * [Installation](#bricks-installation)
   * [Prerequisites](#construction-prerequisites)
   * [Installing Dependencies](#construction-installing-dependencies)
   * [Running](#arrow_forward-running)
+* [Usage](#coffee-usage)
 * [Contributing](#handshake-contributing)
 * [License](#page_facing_up-license)
 * [Author](#technologist-author)
 
 ## :book: About The Project
 
-tes
+CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.
 
 ### :computer: Technologies
 
@@ -72,6 +71,18 @@ $ npm install
 ```bash
 $ npm run dev
 ```
+
+
+
+## :coffee: Usage
+
+To use readme-gen, run the following command:
+
+```bash
+$ npx readme-gen
+```
+
+
 
 ## :handshake: Contributing
 

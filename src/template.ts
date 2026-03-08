@@ -13,6 +13,7 @@ export interface TemplateData extends ProjectInfo {
   contributors_table?: string;
   license_badge?: string;
   table_of_contents?: string;
+  usage_command?: string;
 }
 
 export function loadTemplate(templatePath?: string): string {
@@ -113,6 +114,7 @@ export function buildTableOfContents(data: TemplateData): string {
   if (data.has_docker)
     lines.push("  * [Running with Docker](#whale-running-with-docker)");
   lines.push("  * [Running](#arrow_forward-running)");
+  if (data.usage_command) lines.push("* [Usage](#coffee-usage)");
   lines.push("* [Contributing](#handshake-contributing)");
   if (data.contributors_table) lines.push("* [Contributors](#contributors)");
   if (data.license) lines.push("* [License](#page_facing_up-license)");
