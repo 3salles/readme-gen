@@ -23,41 +23,60 @@
 
 ## 🗂 Table of Contents
 
-* [About the Project](#book-about-the-project)
-  * [Usage](#coffee-usage)
-  * [Technologies](#computer-technologies)
-* [Installation](#bricks-installation)
-  * [Prerequisites](#construction-prerequisites)
-  * [Installing Dependencies](#construction-installing-dependencies)
-  * [Running](#arrow_forward-running)
-  * [Running Tests](#test_tube-running-tests)
-* [Contributing](#handshake-contributing)
-* [License](#page_facing_up-license)
-* [Author](#technologist-author)
+- [About the Project](#book-about-the-project)
+  - [Usage](#coffee-usage)
+  - [Technologies](#computer-technologies)
+- [Installation](#bricks-installation)
+  - [Prerequisites](#construction-prerequisites)
+  - [Installing Dependencies](#construction-installing-dependencies)
+  - [Running](#arrow_forward-running)
+  - [Running Tests](#test_tube-running-tests)
+- [Contributing](#handshake-contributing)
+- [License](#page_facing_up-license)
+- [Author](#technologist-author)
 
 ## :book: About The Project
 
-CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.
-
-
+`readme-cli-gen` is a CLI tool that generates README.md files by scanning your project's structure. It automatically detects technologies, configuration files, and scripts — then asks only for the information it couldn't find. Each section is optional and only suggested when the relevant files or scripts are present in your project.
 
 ### :coffee: Usage
 
-To use readme-cli-gen, run the following command:
+The easiest way to use `readme-cli-gen` is via `npx`, with no installation needed:
 
 ```bash
-$ npm run dev
+$ npx readme-cli-gen
 ```
 
+To generate a README for a specific project, pass the path as an argument:
 
+```bash
+$ npx readme-cli-gen /path/to/your/project
+```
+
+To use a custom template:
+
+```bash
+$ npx readme-cli-gen /path/to/your/project /path/to/template.md
+```
+
+The tool scans your project and suggests sections based on what it finds:
+
+| What it detects                                       | Section suggested     |
+| ----------------------------------------------------- | --------------------- |
+| `package.json`                                        | Technologies          |
+| `.env.example`                                        | Environment Variables |
+| `Dockerfile` / `docker-compose.yml`                   | Docker                |
+| Test scripts (`test`, `vitest`, `jest`) or test files | Running Tests         |
+| `LICENSE` / `package.json` license field              | License               |
+| `git config` / `remote.origin.url`                    | Author                |
 
 ### :computer: Technologies
 
-* [@clack/prompts](https://npmjs.com/package/@clack/prompts)
-* [@types/node](https://npmjs.com/package/@types/node)
-* [tsx](https://npmjs.com/package/tsx)
-* [typescript](https://npmjs.com/package/typescript)
-* [vitest](https://npmjs.com/package/vitest)
+- [@clack/prompts](https://npmjs.com/package/@clack/prompts)
+- [@types/node](https://npmjs.com/package/@types/node)
+- [tsx](https://npmjs.com/package/tsx)
+- [typescript](https://npmjs.com/package/typescript)
+- [vitest](https://npmjs.com/package/vitest)
 
 ## :bricks: Installation
 
@@ -73,32 +92,20 @@ $ cd readme-cli-gen
 ### :construction: Installing Dependencies
 
 ```bash
-$ npm install
+$ pnpm install
 ```
-
-
-
-
-
-
 
 ### :arrow_forward: Running
 
 ```bash
-$ npm run dev
+$ pnpm dev
 ```
-
-
-
-
 
 ### :test_tube: Running Tests
 
 ```bash
-$ npm run test
+$ pnpm test
 ```
-
-
 
 ## :handshake: Contributing
 
@@ -112,18 +119,10 @@ To contribute to readme-cli-gen, follow these steps:
 
 See the GitHub docs on [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-
-
-
-
 ## :page_facing_up: License
 
 This project uses [MIT](LICENSE) license.
 
-
-
-
 ## :technologist: Author
 
 [Beatriz Salles](https://github.com/3salles)
-
