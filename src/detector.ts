@@ -33,7 +33,7 @@ export function detectProject(projectPath: string): ProjectInfo {
     else if (pkg.author?.name) info.author = pkg.author.name;
   }
 
-  // Busca licença no arquivo LICENSE se não encontrou no package.json
+  // Search for license in LICENSE file if not found in package.json
   if (!info.license) {
     const licenseFiles = ["LICENSE", "LICENSE.md", "LICENSE.txt"];
     for (const file of licenseFiles) {
@@ -60,7 +60,7 @@ export function detectProject(projectPath: string): ProjectInfo {
 
     if (gitUser && !info.author) info.author = gitUser;
   } catch (error) {
-    console.warn("Não foi possível ler o user.name do git:", error);
+    console.warn("Could not read user.name from git:", error);
   }
 
   try {
@@ -74,7 +74,7 @@ export function detectProject(projectPath: string): ProjectInfo {
     const match = remoteUrl.match(/github\.com[:/]([^/]+)\//);
     if (match?.[1]) info.githubUser = match[1];
   } catch (error) {
-    console.warn("Não foi possível ler o remote.origin.url do git:", error);
+    console.warn("Could not read remote.origin.url from git:", error);
   }
 
   const envPath = path.join(projectPath, ".env.example");

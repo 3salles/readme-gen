@@ -15,7 +15,7 @@ async function main() {
   p.intro("📝 README Generator");
 
   const projectPath = process.argv[2] ?? process.cwd();
-  p.log.info(`Lendo projeto em: ${projectPath}`);
+  p.log.info(`Reading project at: ${projectPath}`);
 
   const info = detectProject(projectPath);
 
@@ -28,16 +28,16 @@ async function main() {
     .map((dep) => `* [${dep}](https://npmjs.com/package/${dep})`)
     .join("\n");
 
-  // Descrição
+  // Description
   let description = info.description;
 
   if (description) {
     const useDetected = await p.confirm({
-      message: `Descrição detectada: "${description}". Deseja usá-la?`,
+      message: `Detected description: "${description}". Use it?`,
     });
 
     if (p.isCancel(useDetected)) {
-      p.cancel("Operação cancelada.");
+      p.cancel("Operation cancelled.");
       process.exit(0);
     }
 
@@ -46,27 +46,27 @@ async function main() {
 
   if (!description) {
     const written = await p.text({
-      message: "Escreva a descrição do projeto:",
-      placeholder: "Um projeto incrível que faz...",
+      message: "Write the project description:",
+      placeholder: "An amazing project that does...",
       validate: (v) =>
-        !v || v.trim() === "" ? "A descrição não pode ser vazia." : undefined,
+        !v || v.trim() === "" ? "Description cannot be empty." : undefined,
     });
 
     if (p.isCancel(written)) {
-      p.cancel("Operação cancelada.");
+      p.cancel("Operation cancelled.");
       process.exit(0);
     }
 
     description = written;
   }
 
-  // Autor
+  // Author
   const showAuthor = await p.confirm({
-    message: "Deseja exibir o autor no README?",
+    message: "Display author in the README?",
   });
 
   if (p.isCancel(showAuthor)) {
-    p.cancel("Operação cancelada.");
+    p.cancel("Operation cancelled.");
     process.exit(0);
   }
 
@@ -79,11 +79,11 @@ async function main() {
 
     if (author) {
       const useDetected = await p.confirm({
-        message: `Autor detectado: "${author}". Deseja usá-lo?`,
+        message: `Detected author: "${author}". Use it?`,
       });
 
       if (p.isCancel(useDetected)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -95,14 +95,14 @@ async function main() {
 
     if (!author) {
       const written = await p.text({
-        message: "Qual o seu nome?",
+        message: "What is your name?",
         placeholder: "Beatriz Salles",
         validate: (v) =>
-          !v || v.trim() === "" ? "O autor não pode ser vazio." : undefined,
+          !v || v.trim() === "" ? "Author cannot be empty." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -111,11 +111,11 @@ async function main() {
 
     if (githubUser) {
       const useDetected = await p.confirm({
-        message: `Usuário do GitHub detectado: "${githubUser}". Deseja usá-lo?`,
+        message: `Detected GitHub user: "${githubUser}". Use it?`,
       });
 
       if (p.isCancel(useDetected)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -124,14 +124,14 @@ async function main() {
 
     if (!githubUser) {
       const written = await p.text({
-        message: "Qual o seu usuário do GitHub?",
-        placeholder: "seu-usuario",
+        message: "What is your GitHub username?",
+        placeholder: "your-username",
         validate: (v) =>
-          !v || v.trim() === "" ? "O usuário não pode ser vazio." : undefined,
+          !v || v.trim() === "" ? "Username cannot be empty." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -144,18 +144,18 @@ async function main() {
   let dockerPort: string | undefined;
 
   const showDocker = await p.confirm({
-    message: "Deseja exibir seção de Docker?",
+    message: "Display Docker section?",
   });
 
   if (p.isCancel(showDocker)) {
-    p.cancel("Operação cancelada.");
+    p.cancel("Operation cancelled.");
     process.exit(0);
   }
 
   if (showDocker) {
     if (info.hasDocker) {
       p.log.success(
-        `Dockerfile detectado! Porta: ${info.dockerPort ?? "não encontrada"}`,
+        `Dockerfile detected! Port: ${info.dockerPort ?? "not found"}`,
       );
       hasDocker = "true";
       dockerPort = info.dockerPort;
@@ -163,14 +163,14 @@ async function main() {
 
     if (!dockerPort) {
       const written = await p.text({
-        message: "Qual a porta da aplicação?",
+        message: "What is the application port?",
         placeholder: "3000",
         validate: (v) =>
-          !v || v.trim() === "" ? "A porta não pode ser vazia." : undefined,
+          !v || v.trim() === "" ? "Port cannot be empty." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -183,28 +183,28 @@ async function main() {
   let envVars: string | undefined;
 
   const showEnvVars = await p.confirm({
-    message: "Deseja exibir seção de variáveis de ambiente?",
+    message: "Display environment variables section?",
   });
 
   if (p.isCancel(showEnvVars)) {
-    p.cancel("Operação cancelada.");
+    p.cancel("Operation cancelled.");
     process.exit(0);
   }
 
   if (showEnvVars) {
     if (info.envVars && info.envVars.length > 0) {
-      p.log.success(`Variáveis detectadas: ${info.envVars.join(", ")}`);
+      p.log.success(`Detected variables: ${info.envVars.join(", ")}`);
       envVars = info.envVars.join("\n");
     } else {
       const written = await p.text({
-        message: "Liste as variáveis de ambiente (separadas por vírgula):",
+        message: "List environment variables (comma-separated):",
         placeholder: "DATABASE_URL, API_KEY, PORT",
         validate: (v) =>
-          !v || v.trim() === "" ? "Insira ao menos uma variável." : undefined,
+          !v || v.trim() === "" ? "Enter at least one variable." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -219,40 +219,40 @@ async function main() {
   let contributorsTable: string | undefined;
 
   const showContributors = await p.confirm({
-    message: "Deseja exibir lista de contribuintes?",
+    message: "Display contributors list?",
   });
 
   if (p.isCancel(showContributors)) {
-    p.cancel("Operação cancelada.");
+    p.cancel("Operation cancelled.");
     process.exit(0);
   }
 
   if (showContributors) {
     const written = await p.text({
-      message: "Liste os contribuintes no formato Nome--usuario, um por linha:",
+      message: "List contributors in the format Name--username, one per line:",
       placeholder: "Beatriz Salles--3salles\nJohn Doe--johndoe",
       validate: (v) =>
-        !v || v.trim() === "" ? "Insira ao menos um contribuinte." : undefined,
+        !v || v.trim() === "" ? "Enter at least one contributor." : undefined,
     });
 
     if (p.isCancel(written)) {
-      p.cancel("Operação cancelada.");
+      p.cancel("Operation cancelled.");
       process.exit(0);
     }
 
     contributorsTable = buildContributorsTable(written);
   }
 
-  // Licença
+  // License
   let license: string | undefined;
 
   if (info.license) {
     const useDetected = await p.confirm({
-      message: `Licença detectada: "${info.license}". Deseja usá-la?`,
+      message: `Detected license: "${info.license}". Use it?`,
     });
 
     if (p.isCancel(useDetected)) {
-      p.cancel("Operação cancelada.");
+      p.cancel("Operation cancelled.");
       process.exit(0);
     }
 
@@ -261,24 +261,24 @@ async function main() {
 
   if (!license) {
     const showLicense = await p.confirm({
-      message: "Deseja exibir seção de licença?",
+      message: "Display license section?",
     });
 
     if (p.isCancel(showLicense)) {
-      p.cancel("Operação cancelada.");
+      p.cancel("Operation cancelled.");
       process.exit(0);
     }
 
     if (showLicense) {
       const written = await p.text({
-        message: "Qual a licença do projeto?",
+        message: "What is the project license?",
         placeholder: "MIT",
         validate: (v) =>
-          !v || v.trim() === "" ? "A licença não pode ser vazia." : undefined,
+          !v || v.trim() === "" ? "License cannot be empty." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -293,11 +293,11 @@ async function main() {
   let usageCommand: string | undefined;
 
   const showUsage = await p.confirm({
-    message: "Deseja exibir seção de uso do projeto?",
+    message: "Display usage section?",
   });
 
   if (p.isCancel(showUsage)) {
-    p.cancel("Operação cancelada.");
+    p.cancel("Operation cancelled.");
     process.exit(0);
   }
 
@@ -307,14 +307,14 @@ async function main() {
       .map((s) => `npm run ${s}`);
 
     if (detectedScripts.length > 0) {
-      p.log.success(`Scripts detectados: ${detectedScripts.join(", ")}`);
+      p.log.success(`Detected scripts: ${detectedScripts.join(", ")}`);
 
       const useDetected = await p.confirm({
-        message: `Usar "${detectedScripts[0]}" como comando de uso?`,
+        message: `Use "${detectedScripts[0]}" as usage command?`,
       });
 
       if (p.isCancel(useDetected)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -323,14 +323,14 @@ async function main() {
 
     if (!usageCommand) {
       const written = await p.text({
-        message: "Qual o comando para usar o projeto?",
-        placeholder: "npx readme-gen ou npm start",
+        message: "What is the command to use the project?",
+        placeholder: "npx readme-gen or npm start",
         validate: (v) =>
-          !v || v.trim() === "" ? "O comando não pode ser vazio." : undefined,
+          !v || v.trim() === "" ? "Command cannot be empty." : undefined,
       });
 
       if (p.isCancel(written)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -347,7 +347,7 @@ async function main() {
     usage_command: usageCommand,
   });
 
-  // Monta o data
+  // Build data
   const data: TemplateData = {
     ...info,
     project_name: info.name,
@@ -365,24 +365,24 @@ async function main() {
     table_of_contents: tableOfContents,
   };
 
-  // Carrega o template
+  // Load template
   const templatePath = process.argv[3];
   const template = loadTemplate(templatePath);
 
-  // Detecta campos faltando
+  // Detect missing fields
   const missing = detectMissingFields(template, data);
 
   if (missing.length > 0) {
-    p.log.warn("Alguns campos não foram detectados automaticamente:");
+    p.log.warn("Some fields were not detected automatically:");
 
     for (const field of missing) {
       const value = await p.text({
-        message: `Qual o valor de "${field}"?`,
+        message: `What is the value of "${field}"?`,
         placeholder: field,
       });
 
       if (p.isCancel(value)) {
-        p.cancel("Operação cancelada.");
+        p.cancel("Operation cancelled.");
         process.exit(0);
       }
 
@@ -390,12 +390,12 @@ async function main() {
     }
   }
 
-  // Gera o README
+  // Generate README
   const readme = fillTemplate(template, data);
   const outputPath = path.join(projectPath, "README.md");
   fs.writeFileSync(outputPath, readme);
 
-  p.outro(`✅ README.md gerado em ${outputPath}`);
+  p.outro(`✅ README.md generated at ${outputPath}`);
 }
 
 main();
