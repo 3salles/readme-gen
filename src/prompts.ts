@@ -85,18 +85,16 @@ export async function promptAuthor(
 export async function promptDocker(
   info: ProjectInfo,
 ): Promise<{ hasDocker: string | undefined; dockerPort: string | undefined }> {
-  if (info.hasDocker) {
-    p.log.success(
-      `Dockerfile detected! Port: ${info.dockerPort ?? "not found"}`,
-    );
-  }
+  if (!info.hasDocker) return { hasDocker: undefined, dockerPort: undefined };
+
+  p.log.success(`Dockerfile detected! Port: ${info.dockerPort ?? "not found"}`);
 
   const showDocker = await promptWithCancel(
     p.confirm({ message: "Display Docker section?" }),
   );
   if (!showDocker) return { hasDocker: undefined, dockerPort: undefined };
 
-  if (info.hasDocker && info.dockerPort) {
+  if (info.dockerPort) {
     return { hasDocker: "true", dockerPort: info.dockerPort };
   }
 
@@ -113,32 +111,16 @@ export async function promptDocker(
 }
 
 export async function promptEnvVars(info: ProjectInfo): Promise<string | undefined> {
-  if (info.envVars && info.envVars.length > 0) {
-    p.log.success(`Detected variables: ${info.envVars.join(", ")}`);
-  }
+  if (!info.envVars || info.envVars.length === 0) return undefined;
+
+  p.log.success(`Detected variables: ${info.envVars.join(", ")}`);
 
   const showEnvVars = await promptWithCancel(
     p.confirm({ message: "Display environment variables section?" }),
   );
   if (!showEnvVars) return undefined;
 
-  if (info.envVars && info.envVars.length > 0) {
-    return info.envVars.join("\n");
-  }
-
-  const written = await promptWithCancel(
-    p.text({
-      message: "List environment variables (comma-separated):",
-      placeholder: "DATABASE_URL, API_KEY, PORT",
-      validate: (v) =>
-        !v || v.trim() === "" ? "Enter at least one variable." : undefined,
-    }),
-  );
-
-  return written
-    .split(",")
-    .map((v) => v.trim())
-    .join("\n");
+  return info.envVars.join("\n");
 }
 
 export async function promptContributors(): Promise<string | undefined> {

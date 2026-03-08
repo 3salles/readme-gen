@@ -24,6 +24,7 @@
 ## 🗂 Table of Contents
 
 * [About the Project](#book-about-the-project)
+  * [Usage](#coffee-usage)
   * [Technologies](#computer-technologies)
 * [Installation](#bricks-installation)
   * [Prerequisites](#construction-prerequisites)
@@ -31,12 +32,23 @@
   * [Running](#arrow_forward-running)
   * [Running Tests](#test_tube-running-tests)
 * [Contributing](#handshake-contributing)
+* [Contributors](#contributors)
 * [License](#page_facing_up-license)
 * [Author](#technologist-author)
 
 ## :book: About The Project
 
 CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.
+
+
+
+### :coffee: Usage
+
+To use readme-gen, run the following command:
+
+```bash
+$ npm run dev
+```
 
 
 
@@ -97,6 +109,22 @@ To contribute to readme-gen, follow these steps:
 
 See the GitHub docs on [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
+
+
+## 🤝 Contributors
+
+Thanks to the following people who contributed to this project:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/jdoe">
+        <img src="https://avatars.githubusercontent.com/jdoe" width="100px;" alt="Jonh Doe"/><br>
+        <sub><b>Jonh Doe</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 
 
