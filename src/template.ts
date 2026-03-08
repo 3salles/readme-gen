@@ -3,7 +3,6 @@ import path from "path";
 import type { ProjectInfo } from "./detector.js";
 
 export interface TemplateData extends ProjectInfo {
-  [key: string]: unknown;
   tech_list?: string;
   project_name?: string;
   env_vars?: string;
@@ -57,10 +56,15 @@ export function buildContributorsTable(input: string): string {
   return `<table>\n${rows.join("\n")}\n</table>`;
 }
 
-export function fillTemplate(template: string, data: TemplateData): string {
+export function fillTemplate(
+  template: string,
+  data: TemplateData,
+  extras: Record<string, string> = {},
+): string {
+  const allData: Record<string, unknown> = { ...data, ...extras };
   let result = template;
 
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of Object.entries(allData)) {
     if (typeof value === "string") {
       result = result.replaceAll(`{{${key}}}`, value);
     }
@@ -69,8 +73,7 @@ export function fillTemplate(template: string, data: TemplateData): string {
   result = result.replace(
     /\{\{#if (\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g,
     (_, key, block) => {
-      const value = data[key as keyof TemplateData];
-      return value ? block : "";
+      return allData[key] ? block : "";
     },
   );
 
