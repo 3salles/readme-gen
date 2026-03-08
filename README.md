@@ -23,40 +23,51 @@
 
 ## 🗂 Table of Contents
 
-* [About the Project](#book-about-the-project)
-  * [Usage](#coffee-usage)
-  * [Technologies](#computer-technologies)
-  * [Technologies](#computer-technologies)
-* [Installation](#bricks-installation)
-  * [Prerequisites](#construction-prerequisites)
-  * [Installing Dependencies](#construction-installing-dependencies)
-  * [Running](#arrow_forward-running)
-* [Contributing](#handshake-contributing)
-* [License](#page_facing_up-license)
-* [Author](#technologist-author)
+- [About the Project](#book-about-the-project)
+  - [Usage](#coffee-usage)
+  - [Technologies](#computer-technologies)
+- [Installation](#bricks-installation)
+  - [Prerequisites](#construction-prerequisites)
+  - [Installing Dependencies](#construction-installing-dependencies)
+  - [Running](#arrow_forward-running)
+- [Contributing](#handshake-contributing)
+- [License](#page_facing_up-license)
+- [Author](#technologist-author)
 
 ## :book: About The Project
 
 CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.
 
+It detects your project's name, description, author, license, technologies, environment variables, and Docker configuration — then asks only for what it couldn't find.
 
+Available on [npm](https://www.npmjs.com/package/readme-gen).
 
 ### :coffee: Usage
 
-To use readme-gen, run the following command:
+The easiest way to use `readme-gen` is via `npx`, with no installation needed:
 
 ```bash
 $ npx readme-gen
 ```
 
+To generate a README for a specific project, pass the path as an argument:
 
+```bash
+$ npx readme-gen /path/to/your/project
+```
+
+To use a custom template:
+
+```bash
+$ npx readme-gen /path/to/your/project /path/to/template.md
+```
 
 ### :computer: Technologies
 
-* [@clack/prompts](https://npmjs.com/package/@clack/prompts)
-* [@types/node](https://npmjs.com/package/@types/node)
-* [tsx](https://npmjs.com/package/tsx)
-* [typescript](https://npmjs.com/package/typescript)
+- [@clack/prompts](https://npmjs.com/package/@clack/prompts)
+- [@types/node](https://npmjs.com/package/@types/node)
+- [tsx](https://npmjs.com/package/tsx)
+- [typescript](https://npmjs.com/package/typescript)
 
 ## :bricks: Installation
 
@@ -74,10 +85,6 @@ $ cd readme-gen
 ```bash
 $ npm install
 ```
-
-
-
-
 
 ### :arrow_forward: Running
 
@@ -97,18 +104,10 @@ To contribute to readme-gen, follow these steps:
 
 See the GitHub docs on [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-
-
-
-
 ## :page_facing_up: License
 
 This project uses [MIT](LICENSE) license.
 
-
-
-
 ## :technologist: Author
 
 [Beatriz Salles](https://github.com/3salles)
-
