@@ -2,15 +2,28 @@
   "name": "readme-gen",
   "version": "1.0.0",
   "description": "CLI tool that automatically generates README.md files by reading your project's files and asking only for the missing information.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "readme-gen": "./dist/index.js"
+  },
+  "type": "module",
   "scripts": {
+    "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "tsx src/index.ts"
   },
-  "keywords": [],
-  "author": "",
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "keywords": [
+    "readme",
+    "generator",
+    "cli",
+    "markdown"
+  ],
+  "author": "Beatriz Salles",
   "license": "MIT",
-  "type": "module",
   "devDependencies": {
     "@types/node": "^25.3.5",
     "tsx": "^4.21.0",

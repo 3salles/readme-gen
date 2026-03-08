@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import type { ProjectInfo } from "./detector.js";
 
 export interface TemplateData extends ProjectInfo {
@@ -16,7 +17,10 @@ export interface TemplateData extends ProjectInfo {
 }
 
 export function loadTemplate(templatePath?: string): string {
-  const defaultPath = path.resolve("templates/default.md");
+  const defaultPath = path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "../templates/default.md",
+  );
   const filePath = templatePath ?? defaultPath;
   return fs.readFileSync(filePath, "utf-8");
 }
